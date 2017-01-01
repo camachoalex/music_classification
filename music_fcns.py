@@ -21,12 +21,12 @@ def getData(read_speech):
     return music_data
         
 # read each file and store it in some hdf5 file
-def write_init_h5():
+def write_init_h5(fileName):
     speech_flag = 1;    
     music_flag = 0
     speech_data = getData(speech_flag)   
     music_data  = getData(music_flag)
-    with h5py.File('data.h5', 'w') as hf:
+    with h5py.File(fileName, 'w') as hf:
             hf.create_dataset('music', data=music_data)
             hf.create_dataset('speech', data=speech_data)
     return music_data,speech_data
@@ -63,6 +63,11 @@ def extract_phase_I_features(in_data):
         data_median[k] = np.median(in_data[k])
     return data_mean, data_var, data_median
 
+def plotHist(x,fig_ID):
+	plt.figure(fig_ID)
+    plt.plot(data)
+    plt.hist(x)
+    plt.show()
 
 def extract_phase_III_features(in_data):
     if(~np.any(np.iscomplex(in_data))):
